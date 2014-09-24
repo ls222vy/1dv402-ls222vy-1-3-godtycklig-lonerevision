@@ -10,56 +10,89 @@ namespace SalaryRevision
     {
         static void Main(string[] args)
         {
-           int Salaries;
-           Salaries = ReadInt("Ange Antal Löner : ");
-           ProcessSalaries(Salaries);
-        }        
 
-        static int ReadInt(string prompt)
-        {
+            int noOfSalaries = 0;
+           
             while (true)
             {
-                string tempvar = prompt;
-                Console.Write(tempvar);
-                string nrofSalaries = Console.ReadLine();
+                noOfSalaries = ReadInt("Ange antal löner att mata in : ");
+
+                if (noOfSalaries >= 2)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.Write("Du måste mata in minst Två löner");
+                    Console.ResetColor();
+                } 
+            }
+            ProcessSalaries(noOfSalaries);
+            {
+                Console.WriteLine();
+
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Tryck tangent för ny beräkning - Esc avslutar,");
+                Console.ResetColor();
+
+                ConsoleKeyInfo cki;
+                cki = Console.ReadKey(true);
+                if (cki.Key == ConsoleKey.Escape) 
+                {
+                    return;
+                }
+            }
+        
+        }
+        static void ProcessSalaries(int count) 
+        {
+            int [] Salaries = new int  [count];
+            int [] SalariesLength = new int [count];
+
+            Salaries = new int [count];
+           
+            for (int i = 0; i < count; i++) 
+            { 
+            Salaries[i] =ReadInt(string.Format("Ange lön nummer {0}:", i+ 1));
+
+             }
+                   Console.Write("\n..................................");
+                   Array.Copy(Salaries,SalariesLength,count);
+                   Array.Sort(Salaries);
+           
+            if (count %2 == 0) 
+             {
+                int medianFirst = Salaries[Salaries.Length /2];
+             }
+
+          }
+        
+        static int ReadInt(string prompt)
+        {
+            string tempvar = null;
+
+            while(true)
+            {
                 try
                 {
-                    int nrofSAlaries = int.Parse(nrofSalaries);
-                    if (nrofSAlaries < 2)
-                    {
-                        throw new OverflowException();
-                    }
-                    return nrofSAlaries;
+                    Console.Write(prompt);
+                    tempvar = Console.ReadLine();
+                    return int.Parse(tempvar);
+
+                  
                 }
-                catch (OverflowException)
-                {   
-                    
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Du måste mata mints två löner för att kuna genom förra");
-                    Console.ResetColor();
-                }
-                catch (FormatException)
+                catch
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Du måste skriva en siffra");
+                    Console.Write("Fel !'{0}, tyvärr kan inte tolkas som ett heltal", tempvar);
                     Console.ResetColor();
                 }
             }
-            
-        }
-        static void ProcessSalaries(int count)
-        {
-            int[] Salaries = new int[count];
 
-            for (int i = 0; i < count; i++) 
-               
-            {
-            
-            }
-
-           // throw new NotImplementedException();
-            
+            //return ReadInt;
         }
     }
-
 }
+   
